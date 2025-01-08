@@ -1,5 +1,7 @@
+'use client';
+
+import api from '@/lib/api';
 import { createContext, useContext, useEffect, useState } from 'react';
-import api from '../lib/api';
 
 const AuthContext = createContext({});
 
@@ -10,7 +12,6 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            // You might want to verify the token with the backend here
             setUser({ token });
         }
         setLoading(false);
@@ -40,4 +41,10 @@ export function AuthProvider({ children }) {
     );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};

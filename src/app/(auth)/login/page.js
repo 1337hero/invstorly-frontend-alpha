@@ -2,19 +2,29 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function Login() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const { login } = useAuth();
     const router = useRouter();
+    const [error, setError] = useState('');
 
     const onSubmit = async (data) => {
         try {
             await login(data.email, data.password);
-            router.push('/');
+            router.push('/listings/create');
         } catch (error) {
-            console.error('Login failed:', error);
+            // More detailed error handling
+            if (error.response?.data?.message) {
+                setError(error.response.data.message);
+            } else if (error.message) {
+                setError(error.message);
+            } else {
+                setError('An unexpected error occurred during login');
+            }
+            console.error('Login error details:', error);
         }
     };
 
@@ -26,6 +36,11 @@ export default function Login() {
                         Sign in to your account
                     </h2>
                 </div>
+                {error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <span className="block sm:inline">{error}</span>
+                    </div>
+                )}
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
