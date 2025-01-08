@@ -1,0 +1,30 @@
+{
+  "output": {
+    "filePath": "frontend-repo-output.txt",
+    "style": "plain",
+    "removeComments": false,
+    "removeEmptyLines": true,
+    "showLineNumbers": false,
+    "topFilesLength": 0
+  },
+  "include": [
+    "**/*"
+  ],
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      "node_modules/",
+      "public/",
+      "public/",
+      ".env*",
+      ".idea/",
+      ".vscode/",
+      ".git/",
+      "*.log",
+      "*.bak",
+      "frontend-repo-output.txt",
+      "repomix.config.json"
+    ]
+  }
+}
